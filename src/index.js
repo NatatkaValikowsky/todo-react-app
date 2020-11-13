@@ -1,17 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import Header from "./header";
+import TaskList from "./task-list";
+import Footer from "./footer";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const App = () => {
+
+    const tasks = [
+        {id: 1, isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2)},
+        {id: 2, isEditing: true, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12)},
+        {id: 3, isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2)}
+    ];
+
+    return (
+        <section className="todoapp">
+            <Header />
+            <section className="main">
+                <TaskList items={tasks} />
+                <Footer />
+            </section>
+        </section>
+    );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
