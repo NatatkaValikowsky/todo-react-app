@@ -10,9 +10,7 @@ export default class NewTaskForm extends Component{
         };
 
         this.onNewItemFieldChangeHandler = (e) => {
-            this.setState({
-                label: e.target.value
-            });
+            this.setState({newTaskText: e.target.value});
         };
     }
 
@@ -23,12 +21,16 @@ export default class NewTaskForm extends Component{
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    onAddItem(this.state.label);
+                    onAddItem(this.state.newTaskText);
+                    this.setState({
+                        newTaskText: ''
+                    });
                 }}>
                 <input
                     className="new-todo"
                     placeholder="What needs to be done?"
                     onChange={this.onNewItemFieldChangeHandler}
+                    value={this.state.newTaskText}
                     autoFocus />
             </form>
         );
