@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {formatDistanceToNow } from 'date-fns';
 import './task.css';
+import PropTypes from 'prop-types';
 
 export default class Task extends Component{
 
@@ -18,37 +19,37 @@ export default class Task extends Component{
     }
 
     render() {
-        const props = this.props;
+        const {id, title, date, isCompleted, isEditing, onSetCompleted, onEdited, onDeleted, saveNewTitle, closeEditField} = this.props;
 
-        let classes = (props.isCompleted ? ' completed' : '') + (props.isEditing ? ' editing' : '');
+        let classes = (isCompleted ? ' completed' : '') + (isEditing ? ' editing' : '');
 
         return (
-            <li key={props.id} className={classes}>
+            <li key={id} className={classes}>
                 <div className="view">
                     <input
-                        id={'list-element-' + props.id}
+                        id={'list-element-' + id}
                         className="toggle"
                         type="checkbox"
-                        onChange={this.props.onSetCompleted}
-                        checked={props.isCompleted}
+                        onChange={onSetCompleted}
+                        checked={isCompleted}
                     />
-                    <label htmlFor={'list-element-' + props.id}>
-                        <span className="description">{props.title}</span>
-                        <span className="created">created {formatDistanceToNow(props.date, { addSuffix: true })}</span>
+                    <label htmlFor={'list-element-' + id}>
+                        <span className="description">{title}</span>
+                        <span className="created">created {formatDistanceToNow(date, { addSuffix: true })}</span>
                     </label>
                     <button
                         className="icon icon-edit"
-                        onClick={props.onEdited}></button>
+                        onClick={onEdited}></button>
                     <button
                         className="icon icon-destroy"
-                        onClick={this.props.onDeleted}></button>
+                        onClick={onDeleted}></button>
                 </div>
 
-                {props.isEditing ? (
+                {isEditing ? (
                     <form onSubmit={(e) => {
                         e.preventDefault();
-                        props.saveNewTitle(props.id, this.state.title);
-                        props.closeEditField(props.id);
+                        saveNewTitle(id, this.state.title);
+                        closeEditField(id);
                     }}>
                         <input type="text" className="edit" value={this.state.title} onChange={this.onChangeTitle} />
                     </form>
@@ -58,3 +59,25 @@ export default class Task extends Component{
     }
 }
 
+Task.defaultProps = {
+    isCompleted:false,
+    isEditing: false,
+    onSetCompleted: () => {},
+    onEdited: () => {},
+    onDeleted: () => {},
+    saveNewTitle: () => {},
+    closeEditField: () => {}
+};
+
+Task.propTypes = {
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+    isCompleted: PropTypes.bool,
+    isEditing: PropTypes.bool,
+    onSetCompleted: PropTypes.func,
+    onEdited: PropTypes.func,
+    onDeleted: PropTypes.func,
+    saveNewTitle: PropTypes.func,
+    closeEditField: PropTypes.func
+};
