@@ -13,7 +13,7 @@ class App extends Component{
         this.state = {
             items: [
                 {id: 1, isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2)},
-                {id: 2, isEditing: true, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12)},
+                {id: 2, isEditing: false, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12)},
                 {id: 3, isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2)}
             ]
         };
