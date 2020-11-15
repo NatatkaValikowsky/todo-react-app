@@ -10,19 +10,21 @@ export default class NewTaskForm extends Component{
             newTaskText: ''
         };
 
-        this.onNewItemFieldChangeHandler = (e) => {
-            this.setState({newTaskText: e.target.value});
+        this.onNewItemFieldChangeHandler = (event) => {
+            this.setState({newTaskText: event.target.value});
         };
     }
 
     render() {
         const {onAddItem} = this.props;
+        const {newTaskText} = this.state;
+
 
         return (
             <form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    onAddItem(this.state.newTaskText);
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    onAddItem(newTaskText);
                     this.setState({
                         newTaskText: ''
                     });
@@ -31,8 +33,8 @@ export default class NewTaskForm extends Component{
                     className="new-todo"
                     placeholder="What needs to be done?"
                     onChange={this.onNewItemFieldChangeHandler}
-                    value={this.state.newTaskText}
-                    autoFocus />
+                    value={newTaskText}
+                />
             </form>
         );
     }

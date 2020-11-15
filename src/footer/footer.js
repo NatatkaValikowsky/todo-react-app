@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TasksFilter from "../task-filter";
 import './footer.css';
-import PropTypes from 'prop-types';
 
 const Footer = ({filterItems, filterType, onClearAllCompleted, countToDo}) => {
   return (
@@ -11,7 +11,7 @@ const Footer = ({filterItems, filterType, onClearAllCompleted, countToDo}) => {
               filterItems = {filterItems}
               filterType = {filterType}
           />
-          <button className="clear-completed" onClick={() => {onClearAllCompleted()}}>Clear completed</button>
+          <button type="button" className="clear-completed" onClick={() => {onClearAllCompleted()}}>Clear completed</button>
       </footer>
   )
 };
