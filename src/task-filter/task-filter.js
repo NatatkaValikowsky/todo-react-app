@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './task-filter.css';
+import PropTypes from 'prop-types';
 
 export default class TasksFilter extends Component{
     render() {
@@ -27,3 +28,13 @@ export default class TasksFilter extends Component{
         );
     }
 }
+
+TasksFilter.defaultProps = {
+    filterItems: () => {},
+    filterType: 'all'
+};
+
+TasksFilter.propTypes = {
+    filterItems: PropTypes.func,
+    filterType: PropTypes.string
+};
