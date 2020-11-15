@@ -1,144 +1,135 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import Header from "./header";
-import TaskList from "./task-list";
-import Footer from "./footer";
+import Header from './header';
+import TaskList from './task-list';
+import Footer from './footer';
 
-class App extends Component{
-    constructor() {
-        super();
+class App extends Component {
+	constructor() {
+		super();
 
-        this.currId = 4;
+		this.currId = 4;
 
-        this.state = {
-            items: [
-                {id: 1, isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2)},
-                {id: 2, isEditing: false, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12)},
-                {id: 3, isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2)}
-            ],
-            show: 'all'
-        };
+		this.state = {
+			items: [
+				{ id: 1, isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2) },
+				{ id: 2, isEditing: false, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12) },
+				{ id: 3, isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2) },
+			],
+			show: 'all',
+		};
 
-        this.getItems = () => {
-            if(this.state.show === 'active'){
-                return this.state.items.filter(el => !el.isCompleted);
-            }
+		this.getItems = () => {
+			const { show, items } = this.state;
 
-            if(this.state.show === 'completed'){
-                return this.state.items.filter(el => el.isCompleted);
-            }
+			if (show === 'active') {
+				return items.filter((el) => !el.isCompleted);
+			}
 
-            return this.state.items;
-        };
+			if (show === 'completed') {
+				return items.filter((el) => el.isCompleted);
+			}
 
-        this.setFiltered = (type) => {
-            this.setState({
-                show: type
-            });
-        };
+			return items;
+		};
 
-        this.deleteItem = (id) => {
-            this.setState(({items}) => {
-                return {
-                    items: [
-                        ...items.filter(el => el.id !== id)
-                    ]
-                }
-            })
-        };
+		this.setFiltered = (type) => {
+			this.setState({
+				show: type,
+			});
+		};
 
-        this.addNewItem = (label) => {
-            this.setState(({items}) => {
-                return {
-                    items: [
-                        ...items,
-                        {
-                            id: this.currId,
-                            isEditing: false,
-                            isCompleted: false,
-                            title: label,
-                            date: new Date()
-                        }
-                    ]
-                }
-            });
+		this.deleteItem = (id) => {
+			this.setState(({ items }) => {
+				return {
+					items: [...items.filter((el) => el.id !== id)],
+				};
+			});
+		};
 
-            this.currId += 1;
-        };
+		this.addNewItem = (label) => {
+			this.setState(({ items }) => {
+				return {
+					items: [
+						...items,
+						{
+							id: this.currId,
+							isEditing: false,
+							isCompleted: false,
+							title: label,
+							date: new Date(),
+						},
+					],
+				};
+			});
 
-        this.setCompleted = (id) => {
-            this.setState(({items}) => {
-                return {
-                    items: [
-                        ...items.map(el => el.id === id ? {...el, isCompleted: !el.isCompleted} : el)
-                    ]
-                };
-            });
+			this.currId += 1;
+		};
 
-        };
+		this.setCompleted = (id) => {
+			this.setState(({ items }) => {
+				return {
+					items: [...items.map((el) => (el.id === id ? { ...el, isCompleted: !el.isCompleted } : el))],
+				};
+			});
+		};
 
-        this.clearCompleted = () => {
-            this.setState(({items}) => {
-               return {
-                   items: [
-                       ...items.filter(el => !el.isCompleted)
-                   ]
-               };
-            });
-        };
+		this.clearCompleted = () => {
+			this.setState(({ items }) => {
+				return {
+					items: [...items.filter((el) => !el.isCompleted)],
+				};
+			});
+		};
 
-        this.setEdited = (id) => {
-            this.setState(({items}) => {
-                return {
-                    items: [
-                        ...items.map(el => el.id === id ? {...el, isEditing: !el.isEditing} : {...el, isEditing: false})
-                    ]
-                };
-            });
-        };
+		this.setEdited = (id) => {
+			this.setState(({ items }) => {
+				return {
+					items: [
+						...items.map((el) => (el.id === id ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false })),
+					],
+				};
+			});
+		};
 
-        this.saveTitle = (id, title) => {
-            this.setState(({items}) => {
-                return {
-                    items: [
-                        ...items.map(el => el.id === id ? {...el, title} : el)
-                    ]
-                };
-            });
-        };
-    }
+		this.saveTitle = (id, title) => {
+			this.setState(({ items }) => {
+				return {
+					items: [...items.map((el) => (el.id === id ? { ...el, title } : el))],
+				};
+			});
+		};
+	}
 
-    render() {
+	render() {
+		const { items, show } = this.state;
+		const countToDo = items.filter((el) => !el.isCompleted).length;
 
-        const countToDo = this.state.items.filter(el => !el.isCompleted).length;
+		return (
+			<section className="todoapp">
+				<Header onAddItem={this.addNewItem} />
 
-        return (
-            <section className="todoapp">
-                <Header
-                    onAddItem={this.addNewItem}
-                />
+				<section className="main">
+					<TaskList
+						items={this.getItems()}
+						onDeleted={this.deleteItem}
+						onSetCompleted={this.setCompleted}
+						onEdited={this.setEdited}
+						saveNewTitle={this.saveTitle}
+						closeEditField={this.setEdited}
+					/>
 
-                <section className="main">
-                    <TaskList
-                        items={this.getItems()}
-                        onDeleted = {this.deleteItem}
-                        onSetCompleted = {this.setCompleted}
-                        onEdited = {this.setEdited}
-                        saveNewTitle = {this.saveTitle}
-                        closeEditField = {this.setEdited}
-                    />
-
-                    <Footer
-                        filterItems = {this.setFiltered}
-                        filterType = {this.state.show}
-                        onClearAllCompleted = {this.clearCompleted}
-                        countToDo = {countToDo}
-                    />
-                </section>
-            </section>
-        );
-    }
+					<Footer
+						filterItems={this.setFiltered}
+						filterType={show}
+						onClearAllCompleted={this.clearCompleted}
+						countToDo={countToDo}
+					/>
+				</section>
+			</section>
+		);
+	}
 }
 ReactDOM.render(<App />, document.getElementById('root'));

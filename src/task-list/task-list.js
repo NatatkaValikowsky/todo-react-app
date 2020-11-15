@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Task from "../task";
 import './task-list.css';
-import PropTypes from 'prop-types';
 
 const TaskList = ({items, onDeleted, onSetCompleted, onEdited, saveNewTitle, closeEditField}) => {
 
@@ -38,7 +38,7 @@ TaskList.defaultProps = {
 };
 
 TaskList.propTypes = {
-    items: PropTypes.array.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
     onDeleted: PropTypes.func,
     onSetCompleted: PropTypes.func,
     onEdited: PropTypes.func,
