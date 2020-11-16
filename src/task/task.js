@@ -46,7 +46,7 @@ export default class Task extends Component {
 						<span className="description">{title}</span>
 						<span className="created">created {formatDistanceToNow(date, { addSuffix: true })}</span>
 					</label>
-					<button type="button" className="icon icon-edit" onClick={onEdited} aria-label="Edit button" />
+					{!isCompleted ? <button type="button" className="icon icon-edit" onClick={onEdited} aria-label="Edit button" /> : null}
 					<button type="button" className="icon icon-destroy" onClick={onDeleted} aria-label="Delete button" />
 				</div>
 

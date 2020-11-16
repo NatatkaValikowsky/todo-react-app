@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import Task from "../task";
 import './task-list.css';
 
-const TaskList = ({items, onDeleted, onSetCompleted, onEdited, saveNewTitle, closeEditField}) => {
+const TaskList = ({items, filterType, onDeleted, onSetCompleted, onEdited, saveNewTitle, closeEditField}) => {
+    const elements = items.filter(el => {
+        return filterType === 'all' || (filterType === 'active' && !el.isCompleted) || (filterType === 'completed' && el.isCompleted);
+        }).map((item) => {
+            return (
+                <Task
+                    key={item.id}
+                    {...item}
+                    onDeleted = {() => onDeleted(item.id)}
+                    onSetCompleted = {() => onSetCompleted(item.id)}
+                    onEdited = {() => onEdited(item.id)}
+                    saveNewTitle = {saveNewTitle}
+                    closeEditField = {closeEditField}
 
-    const elements = items.map((item) => {
-        return (
-            <Task
-                key={item.id}
-                {...item}
-                onDeleted = {() => onDeleted(item.id)}
-                onSetCompleted = {() => onSetCompleted(item.id)}
-                onEdited = {() => onEdited(item.id)}
-                saveNewTitle = {saveNewTitle}
-                closeEditField = {closeEditField}
-
-            />
-        );
+                />
+            );
     });
 
     return (
@@ -34,7 +35,8 @@ TaskList.defaultProps = {
     onSetCompleted: () => {},
     onEdited: () => {},
     saveNewTitle: () => {},
-    closeEditField: () => {}
+    closeEditField: () => {},
+    filterType: 'all'
 };
 
 TaskList.propTypes = {
@@ -43,5 +45,6 @@ TaskList.propTypes = {
     onSetCompleted: PropTypes.func,
     onEdited: PropTypes.func,
     saveNewTitle: PropTypes.func,
-    closeEditField: PropTypes.func
+    closeEditField: PropTypes.func,
+    filterType: PropTypes.string
 };

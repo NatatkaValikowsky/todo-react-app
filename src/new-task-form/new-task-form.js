@@ -3,17 +3,14 @@ import './new-task-form.css';
 import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component{
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            newTaskText: ''
-        };
+    state = {
+        newTaskText: ''
+    };
 
-        this.onNewItemFieldChangeHandler = (event) => {
-            this.setState({newTaskText: event.target.value});
-        };
-    }
+    onNewItemFieldChangeHandler = (event) => {
+        this.setState({newTaskText: event.target.value});
+    };
 
     render() {
         const {onAddItem} = this.props;
