@@ -7,14 +7,30 @@ export default class Task extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { ...props };
-
-		this.onChangeTitle = (event) => {
-			this.setState({
-				title: event.target.value,
-			});
-			props.saveNewTitle(props.id, event.target.value);
-		};
 	}
+
+	onChangeTitle = (event) => {
+		this.setState({
+			editedTitle: event.target.value,
+		});
+	};
+
+	onClickEditButton = (func) => {
+		const {title} = this.state;
+		this.setState({
+			editedTitle: title
+		});
+
+		func();
+		document.addEventListener('keydown', this.escKeyHandler);
+	};
+
+	escKeyHandler = (event) => {
+		if(event.keyCode === 27){
+			const {closeEditField, id} = this.state;
+			closeEditField(id);
+		}
+	};
 
 	render() {
 		const {
@@ -28,9 +44,13 @@ export default class Task extends Component {
 			saveNewTitle,
 			closeEditField,
 		} = this.props;
-		const { title } = this.state;
+		const { title, editedTitle } = this.state;
 
 		const classes = (isCompleted ? ' completed' : '') + (isEditing ? ' editing' : '');
+
+		if(!isEditing){
+			document.removeEventListener('keydown', this.escKeyHandler);
+		}
 
 		return (
 			<li key={id} className={classes}>
@@ -46,7 +66,7 @@ export default class Task extends Component {
 						<span className="description">{title}</span>
 						<span className="created">created {formatDistanceToNow(date, { addSuffix: true })}</span>
 					</label>
-					{!isCompleted ? <button type="button" className="icon icon-edit" onClick={onEdited} aria-label="Edit button" /> : null}
+					{!isCompleted ? <button type="button" className="icon icon-edit" onClick={() => {this.onClickEditButton(onEdited)}} aria-label="Edit button" /> : null}
 					<button type="button" className="icon icon-destroy" onClick={onDeleted} aria-label="Delete button" />
 				</div>
 
@@ -54,11 +74,14 @@ export default class Task extends Component {
 					<form
 						onSubmit={(event) => {
 							event.preventDefault();
+							this.setState({
+								title: editedTitle
+							});
 							saveNewTitle(id, title);
 							closeEditField(id);
 						}}
 					>
-						<input type="text" className="edit" value={title} onChange={this.onChangeTitle} />
+						<input type="text" className="edit" value={editedTitle || title} onChange={this.onChangeTitle} />
 					</form>
 				) : null}
 			</li>
