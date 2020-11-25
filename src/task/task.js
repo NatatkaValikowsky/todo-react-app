@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import './task.css';
 import PropTypes from 'prop-types';
+import Timer from '../timer';
 
 export default class Task extends Component {
 	constructor(props) {
@@ -16,9 +17,9 @@ export default class Task extends Component {
 	};
 
 	onClickEditButton = (func) => {
-		const {title} = this.state;
+		const { title } = this.state;
 		this.setState({
-			editedTitle: title
+			editedTitle: title,
 		});
 
 		func();
@@ -26,8 +27,8 @@ export default class Task extends Component {
 	};
 
 	escKeyHandler = (event) => {
-		if(event.keyCode === 27){
-			const {closeEditField, id} = this.state;
+		if (event.keyCode === 27) {
+			const { closeEditField, id } = this.state;
 			closeEditField(id);
 		}
 	};
@@ -43,12 +44,14 @@ export default class Task extends Component {
 			onDeleted,
 			saveNewTitle,
 			closeEditField,
+			onStartTimer,
+			isCurrentTimer,
 		} = this.props;
 		const { title, editedTitle } = this.state;
 
 		const classes = (isCompleted ? ' completed' : '') + (isEditing ? ' editing' : '');
 
-		if(!isEditing){
+		if (!isEditing) {
 			document.removeEventListener('keydown', this.escKeyHandler);
 		}
 
@@ -64,9 +67,19 @@ export default class Task extends Component {
 					/>
 					<label htmlFor={`list-element-${id}`}>
 						<span className="description">{title}</span>
+						<Timer onStartTimer={onStartTimer} elId={id} isCurrentTimer={isCurrentTimer} couldStart={!isCompleted} />
 						<span className="created">created {formatDistanceToNow(date, { addSuffix: true })}</span>
 					</label>
-					{!isCompleted ? <button type="button" className="icon icon-edit" onClick={() => {this.onClickEditButton(onEdited)}} aria-label="Edit button" /> : null}
+					{!isCompleted ? (
+						<button
+							type="button"
+							className="icon icon-edit"
+							onClick={() => {
+								this.onClickEditButton(onEdited);
+							}}
+							aria-label="Edit button"
+						/>
+					) : null}
 					<button type="button" className="icon icon-destroy" onClick={onDeleted} aria-label="Delete button" />
 				</div>
 
@@ -75,7 +88,7 @@ export default class Task extends Component {
 						onSubmit={(event) => {
 							event.preventDefault();
 							this.setState({
-								title: editedTitle
+								title: editedTitle,
 							});
 							saveNewTitle(id, title);
 							closeEditField(id);
@@ -97,6 +110,8 @@ Task.defaultProps = {
 	onDeleted: () => {},
 	saveNewTitle: () => {},
 	closeEditField: () => {},
+	onStartTimer: () => {},
+	isCurrentTimer: false,
 };
 
 Task.propTypes = {
@@ -109,4 +124,6 @@ Task.propTypes = {
 	onDeleted: PropTypes.func,
 	saveNewTitle: PropTypes.func,
 	closeEditField: PropTypes.func,
+	onStartTimer: PropTypes.func,
+	isCurrentTimer: PropTypes.bool,
 };

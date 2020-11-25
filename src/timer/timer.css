@@ -1,0 +1,47 @@
+.timer-block{
+    font-size: 13px;
+    color: gray;
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.todo-list .timer-block .icon,
+.todo-list .timer-block .icon:hover{
+    color: #dadada;
+    margin: -15px auto 0;
+    transition: color 0.2s ease-out;
+    cursor: pointer;
+    position: static;
+}
+
+.todo-list .timer-block .icon.active{
+    color: #cc9a9a;
+}
+
+.todo-list .timer-block .icon.active:hover{
+    color: #af5b5e;
+}
+
+.icon-play{
+    width: 18px;
+    height: 18px;
+    font-size: 13px;
+}
+
+.icon-play:after{
+    content: '▶';
+    font-size: 13px;
+}
+
+.icon-pause{
+    font-size: 13px;
+    width: 18px;
+    height: 18px;
+}
+
+.icon-pause:after{
+    content: '⏸';
+    font-size: 13px;
+}
