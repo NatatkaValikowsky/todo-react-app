@@ -67,7 +67,12 @@ export default class Task extends Component {
 					/>
 					<label htmlFor={`list-element-${id}`}>
 						<span className="description">{title}</span>
-						<Timer onStartTimer={onStartTimer} elId={id} isCurrentTimer={isCurrentTimer} couldStart={!isCompleted} />
+						<Timer
+							onStartTimer={onStartTimer}
+							elId={id}
+							isCurrentTimer={isCurrentTimer && !isCompleted}
+							couldStart={!isCompleted}
+						/>
 						<span className="created">created {formatDistanceToNow(date, { addSuffix: true })}</span>
 					</label>
 					{!isCompleted ? (
