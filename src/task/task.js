@@ -55,6 +55,7 @@ export default class Task extends Component {
 			document.removeEventListener('keydown', this.escKeyHandler);
 		}
 
+		
 		return (
 			<li key={id} className={classes}>
 				<div className="view">
