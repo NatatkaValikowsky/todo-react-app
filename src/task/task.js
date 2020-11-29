@@ -4,10 +4,16 @@ import './task.css';
 import PropTypes from 'prop-types';
 import Timer from '../timer';
 
+const initialState = {
+	title: ''
+};
+
 export default class Task extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { ...props };
+
+	state = {...initialState};
+
+	componentDidMount() {
+		this.setState(this.props)
 	}
 
 	onChangeTitle = (event) => {
@@ -55,7 +61,7 @@ export default class Task extends Component {
 			document.removeEventListener('keydown', this.escKeyHandler);
 		}
 
-		
+
 		return (
 			<li key={id} className={classes}>
 				<div className="view">

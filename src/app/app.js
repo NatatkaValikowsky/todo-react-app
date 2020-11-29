@@ -25,66 +25,48 @@ export default class App extends Component {
 	};
 
 	deleteItem = (id) => {
-		this.setState(({ items }) => {
-			return {
-				items: [...items.filter((el) => el.id !== id)],
-			};
-		});
+		this.setState(({ items }) => ({ items: [...items.filter((el) => el.id !== id)] }));
 	};
 
 	addNewItem = (label) => {
-		this.setState(({ items }) => {
-			return {
-				items: [
-					...items,
-					{
-						id: this.currId,
-						isEditing: false,
-						isCompleted: false,
-						title: label,
-						date: new Date(),
-					},
-				],
-			};
-		});
+		this.setState(({ items }) => ({
+			items: [
+				...items,
+				{
+					id: this.currId,
+					isEditing: false,
+					isCompleted: false,
+					title: label,
+					date: new Date(),
+				},
+			],
+		}));
 
 		this.currId += 1;
 	};
 
 	setCompleted = (id) => {
-		this.setState(({ items }) => {
-			return {
-				items: [...items.map((el) => (el.id === id ? { ...el, isCompleted: !el.isCompleted } : el))],
-			};
-		});
+		this.setState(({ items }) => ({ items: [...items.map((el) => (el.id === id ? { ...el, isCompleted: !el.isCompleted } : el))] }));
 	};
 
 	clearCompleted = () => {
-		this.setState(({ items }) => {
-			return {
-				items: [...items.filter((el) => !el.isCompleted)],
-			};
-		});
+		this.setState(({ items }) => ({ items: [...items.filter((el) => !el.isCompleted)] }));
 	};
 
 	setEdited = (id) => {
-		this.setState(({ items }) => {
-			return {
-				items: [
-					...items.map((el) =>
-						el.id === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
-					),
-				],
-			};
-		});
+		this.setState(({ items }) => ({
+			items: [
+				...items.map((el) =>
+					el.id === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
+				),
+			],
+		}));
 	};
 
 	saveTitle = (id, title) => {
-		this.setState(({ items }) => {
-			return {
-				items: [...items.map((el) => (el.id === id ? { ...el, title } : el))],
-			};
-		});
+		this.setState(({ items }) => ({
+			items: [...items.map((el) => (el.id === id ? { ...el, title } : el))],
+		}));
 	};
 
 	render() {

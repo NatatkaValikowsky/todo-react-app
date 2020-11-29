@@ -18,11 +18,7 @@ export default class Timer extends Component {
 		this.timer = setInterval(() => {
 			const { isCurrentTimer } = this.props;
 			if (isCurrentTimer) {
-				this.setState(({ total }) => {
-					return {
-						total: total + 1,
-					};
-				});
+				this.setState(({ total }) => ({ total: total + 1 }))
 			} else {
 				this.setState({
 					isStarted: false,
