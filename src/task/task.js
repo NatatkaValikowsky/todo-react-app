@@ -77,7 +77,7 @@ export default class Task extends Component {
 						<Timer
 							onStartTimer={onStartTimer}
 							elId={id}
-							isCurrentTimer={isCurrentTimer && !isCompleted}
+							isCurrentTimer={isCurrentTimer && !isCompleted && !isEditing}
 							couldStart={!isCompleted}
 						/>
 						<span className="created">created {formatDistanceToNow(date, { addSuffix: true })}</span>
