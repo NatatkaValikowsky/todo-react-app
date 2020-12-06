@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Timer from '../timer';
 
 const Task = (props) => {
-
 	const {
 		id,
 		title,
@@ -18,11 +17,11 @@ const Task = (props) => {
 		closeEditField,
 		onStartTimer,
 		isCurrentTimer,
-		onEdited
+		onEdited,
 	} = props;
 
-	const [_title, setTitle ] = useState(title);
-	const [_editedTitle, setEditedTitle ] = useState(title);
+	const [_title, setTitle] = useState(title);
+	const [_editedTitle, setEditedTitle] = useState(title);
 
 	const classes = (isCompleted ? ' completed' : '') + (isEditing ? ' editing' : '');
 
@@ -44,10 +43,10 @@ const Task = (props) => {
 	};
 
 	const onChangeTitle = (event) => {
-		setEditedTitle( event.target.value);
+		setEditedTitle(event.target.value);
 	};
 
-	return(
+	return (
 		<li key={id} className={classes}>
 			<div className="view">
 				<input
@@ -108,7 +107,7 @@ Task.defaultProps = {
 	closeEditField: () => {},
 	onStartTimer: () => {},
 	isCurrentTimer: false,
-	onEdited: () => {}
+	onEdited: () => {},
 };
 
 Task.propTypes = {
@@ -123,5 +122,5 @@ Task.propTypes = {
 	closeEditField: PropTypes.func,
 	onStartTimer: PropTypes.func,
 	isCurrentTimer: PropTypes.bool,
-	onEdited: PropTypes.func
+	onEdited: PropTypes.func,
 };

@@ -4,8 +4,7 @@ import Task from '../task';
 import './task-list.css';
 
 const TaskList = (props) => {
-
-	const [ startedTimerId, setStartedTimerId] = useState(null);
+	const [startedTimerId, setStartedTimerId] = useState(null);
 
 	const setCurrentTimerId = (id) => {
 		setStartedTimerId(id);

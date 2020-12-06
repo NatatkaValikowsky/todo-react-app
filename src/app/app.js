@@ -7,15 +7,13 @@ import TaskList from '../task-list';
 import Footer from '../footer';
 
 const App = () => {
-	const [ currId, setCurrId ] = useState(4);
-	const [ items, setItems ] = useState(
-		[
-			{ id: 1, isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2) },
-			{ id: 2, isEditing: false, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12) },
-			{ id: 3, isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2) },
-		]
-	);
-	const [ show, setShow ] = useState('all');
+	const [currId, setCurrId] = useState(4);
+	const [items, setItems] = useState([
+		{ id: 1, isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2) },
+		{ id: 2, isEditing: false, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12) },
+		{ id: 3, isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2) },
+	]);
+	const [show, setShow] = useState('all');
 
 	const countToDo = items.filter((el) => !el.isCompleted).length;
 
@@ -24,11 +22,11 @@ const App = () => {
 	};
 
 	const deleteItem = (id) => {
-		setItems(( itemsList ) => [...itemsList.filter((el) => el.id !== id)]);
+		setItems((itemsList) => [...itemsList.filter((el) => el.id !== id)]);
 	};
 
 	const addNewItem = (label) => {
-		setItems(( itemsList ) => [
+		setItems((itemsList) => [
 			...itemsList,
 			{
 				id: currId,
@@ -43,15 +41,15 @@ const App = () => {
 	};
 
 	const setCompleted = (id) => {
-		setItems(( itemsList ) => [...itemsList.map((el) => (el.id === id ? { ...el, isCompleted: !el.isCompleted } : el))]);
+		setItems((itemsList) => [...itemsList.map((el) => (el.id === id ? { ...el, isCompleted: !el.isCompleted } : el))]);
 	};
 
 	const clearCompleted = () => {
-		setItems(( itemsList ) => [...itemsList.filter((el) => !el.isCompleted)]);
+		setItems((itemsList) => [...itemsList.filter((el) => !el.isCompleted)]);
 	};
 
 	const setEdited = (id) => {
-		setItems(( itemsList) => [
+		setItems((itemsList) => [
 			...itemsList.map((el) =>
 				el.id === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
 			),
@@ -59,7 +57,7 @@ const App = () => {
 	};
 
 	const saveTitle = (id, title) => {
-		setItems(( itemsList ) => [...itemsList.map((el) => (el.id === id ? { ...el, title } : el))]);
+		setItems((itemsList) => [...itemsList.map((el) => (el.id === id ? { ...el, title } : el))]);
 	};
 
 	return (

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import './timer.css';
 
 const Timer = ({ couldStart, isCurrentTimer, onStartTimer, elId }) => {
-	const [ total, setTotal ] = useState(0);
-	const [ isStarted, setIsStarted ] = useState(false);
+	const [total, setTotal] = useState(0);
+	const [isStarted, setIsStarted] = useState(false);
 	const [currIntervalId, setCurrIntervalId] = useState(null);
 
 	const onStart = () => {
@@ -22,31 +22,31 @@ const Timer = ({ couldStart, isCurrentTimer, onStartTimer, elId }) => {
 	};
 
 	useEffect(() => {
-		if(!isCurrentTimer){
+		if (!isCurrentTimer) {
 			clearInterval(currIntervalId);
 			setIsStarted(false);
 		}
-	},[isCurrentTimer, currIntervalId]);
+	}, [isCurrentTimer, currIntervalId]);
 
 	const min = Math.floor(total / 60);
 	const sec = Math.floor(total - min * 60);
 
 	return (
 		<span className="timer-block">
-				<button
-					onClick={ !isStarted && couldStart ? onStart : null }
-					aria-label="play timer"
-					type="button"
-					className={`icon icon-play ${!isStarted && couldStart ? 'active' : null}`}
-				/>
-				<button
-					onClick={ isStarted ? onPaused : null }
-					aria-label="pause timer"
-					type="button"
-					className={`icon icon-pause ${isStarted && couldStart ? 'active' : null}`}
-				/>
-				<span>{`${min}:${sec < 10 ? `0${sec}` : sec}`}</span>
-			</span>
+			<button
+				onClick={!isStarted && couldStart ? onStart : null}
+				aria-label="play timer"
+				type="button"
+				className={`icon icon-play ${!isStarted && couldStart ? 'active' : null}`}
+			/>
+			<button
+				onClick={isStarted ? onPaused : null}
+				aria-label="pause timer"
+				type="button"
+				className={`icon icon-pause ${isStarted && couldStart ? 'active' : null}`}
+			/>
+			<span>{`${min}:${sec < 10 ? `0${sec}` : sec}`}</span>
+		</span>
 	);
 };
 
@@ -55,6 +55,6 @@ export default Timer;
 Timer.propTypes = {
 	couldStart: PropTypes.bool.isRequired,
 	isCurrentTimer: PropTypes.bool.isRequired,
-	onStartTimer:PropTypes.func.isRequired,
-	elId: PropTypes.number.isRequired
+	onStartTimer: PropTypes.func.isRequired,
+	elId: PropTypes.number.isRequired,
 };

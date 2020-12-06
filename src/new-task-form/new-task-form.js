@@ -3,7 +3,6 @@ import './new-task-form.css';
 import PropTypes from 'prop-types';
 
 const NewTaskForm = (props) => {
-
 	const [newTaskText, setNewTaskText] = useState('');
 	const { onAddItem } = props;
 
@@ -18,11 +17,13 @@ const NewTaskForm = (props) => {
 			<input
 				className="new-todo"
 				placeholder="What needs to be done?"
-				onChange={(event) => {setNewTaskText(event.target.value)}}
+				onChange={(event) => {
+					setNewTaskText(event.target.value);
+				}}
 				value={newTaskText}
 			/>
 		</form>
-	)
+	);
 };
 
 export default NewTaskForm;
