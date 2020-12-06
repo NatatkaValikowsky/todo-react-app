@@ -1,75 +1,60 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './timer.css';
 
-export default class Timer extends Component {
-	timer = null;
+const Timer = ({ couldStart, isCurrentTimer, onStartTimer, elId }) => {
+	const [ total, setTotal ] = useState(0);
+	const [ isStarted, setIsStarted ] = useState(false);
+	const [currIntervalId, setCurrIntervalId] = useState(null);
 
-	state = {
-		total: 0,
-		isStarted: false,
-	};
-
-	onStart = () => {
-		this.setState({
-			isStarted: true,
-		});
-
-		this.timer = setInterval(() => {
-			const { isCurrentTimer } = this.props;
-			if (isCurrentTimer) {
-				this.setState(({ total }) => ({ total: total + 1 }))
-			} else {
-				this.setState({
-					isStarted: false,
-				});
-				clearInterval(this.timer);
-			}
+	const onStart = () => {
+		const timer = setInterval(() => {
+			setTotal((totalState) => totalState + 1);
 		}, 1000);
-
-		const { onStartTimer, elId } = this.props;
+		setCurrIntervalId(timer);
+		setIsStarted(true);
 		onStartTimer(elId);
 	};
 
-	onPaused = () => {
-		this.setState({
-			isStarted: false,
-		});
-
-		clearInterval(this.timer);
+	const onPaused = () => {
+		setIsStarted(false);
+		clearInterval(currIntervalId);
 	};
 
-	render() {
-		const { total, isStarted } = this.state;
+	useEffect(() => {
+		if(!isCurrentTimer){
+			clearInterval(currIntervalId);
+			setIsStarted(false);
+		}
+	},[isCurrentTimer, currIntervalId]);
 
-		const { couldStart } = this.props;
+	const min = Math.floor(total / 60);
+	const sec = Math.floor(total - min * 60);
 
-		const min = Math.floor(total / 60);
-		const sec = Math.floor(total - min * 60);
-
-		return (
-			<span className="timer-block">
+	return (
+		<span className="timer-block">
 				<button
-					onClick={!isStarted && couldStart ? this.onStart : null}
+					onClick={ !isStarted && couldStart ? onStart : null }
 					aria-label="play timer"
 					type="button"
 					className={`icon icon-play ${!isStarted && couldStart ? 'active' : null}`}
 				/>
 				<button
-					onClick={isStarted ? this.onPaused : null}
+					onClick={ isStarted ? onPaused : null }
 					aria-label="pause timer"
 					type="button"
 					className={`icon icon-pause ${isStarted && couldStart ? 'active' : null}`}
 				/>
 				<span>{`${min}:${sec < 10 ? `0${sec}` : sec}`}</span>
 			</span>
-		);
-	}
-}
+	);
+};
+
+export default Timer;
 
 Timer.propTypes = {
-	onStartTimer: PropTypes.func.isRequired,
-	elId: PropTypes.number.isRequired,
-	isCurrentTimer: PropTypes.bool.isRequired,
 	couldStart: PropTypes.bool.isRequired,
+	isCurrentTimer: PropTypes.bool.isRequired,
+	onStartTimer:PropTypes.func.isRequired,
+	elId: PropTypes.number.isRequired
 };
