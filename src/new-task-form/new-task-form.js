@@ -1,40 +1,31 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './new-task-form.css';
 import PropTypes from 'prop-types';
 
-export default class NewTaskForm extends Component {
-	state = {
-		newTaskText: '',
-	};
+const NewTaskForm = (props) => {
 
-	onNewItemFieldChangeHandler = (event) => {
-		this.setState({ newTaskText: event.target.value });
-	};
+	const [newTaskText, setNewTaskText] = useState('');
+	const { onAddItem } = props;
 
-	render() {
-		const { onAddItem } = this.props;
-		const { newTaskText } = this.state;
+	return (
+		<form
+			onSubmit={(event) => {
+				event.preventDefault();
+				onAddItem(newTaskText);
+				setNewTaskText('');
+			}}
+		>
+			<input
+				className="new-todo"
+				placeholder="What needs to be done?"
+				onChange={(event) => {setNewTaskText(event.target.value)}}
+				value={newTaskText}
+			/>
+		</form>
+	)
+};
 
-		return (
-			<form
-				onSubmit={(event) => {
-					event.preventDefault();
-					onAddItem(newTaskText);
-					this.setState({
-						newTaskText: '',
-					});
-				}}
-			>
-				<input
-					className="new-todo"
-					placeholder="What needs to be done?"
-					onChange={this.onNewItemFieldChangeHandler}
-					value={newTaskText}
-				/>
-			</form>
-		);
-	}
-}
+export default NewTaskForm;
 
 NewTaskForm.defaultProps = {
 	onAddItem: () => {},
