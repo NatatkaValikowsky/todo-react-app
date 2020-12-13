@@ -7,11 +7,10 @@ import TaskList from '../task-list';
 import Footer from '../footer';
 
 const App = () => {
-	const [currId, setCurrId] = useState(4);
 	const [items, setItems] = useState([
-		{ id: 1, isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2) },
-		{ id: 2, isEditing: false, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12) },
-		{ id: 3, isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2) },
+		{ isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2) },
+		{ isEditing: false, isCompleted: false, title: 'Editing task', date: new Date(2020, 11, 12) },
+		{ isEditing: false, isCompleted: false, title: 'Active task', date: new Date(2020, 4, 2) },
 	]);
 	const [show, setShow] = useState('all');
 
@@ -22,42 +21,45 @@ const App = () => {
 	};
 
 	const deleteItem = (id) => {
-		setItems((itemsList) => [...itemsList.filter((el) => el.id !== id)]);
+		setItems((itemsList) => itemsList.filter((el) => (el.title + el.date.getTime()) !== id));
 	};
 
 	const addNewItem = (label) => {
+		const date = new Date();
 		setItems((itemsList) => [
 			...itemsList,
 			{
-				id: currId,
+				id: label + date.getTime(),
 				isEditing: false,
 				isCompleted: false,
 				title: label,
-				date: new Date(),
+				date,
 			},
 		]);
-
-		setCurrId((id) => id + 1);
 	};
 
 	const setCompleted = (id) => {
-		setItems((itemsList) => [...itemsList.map((el) => (el.id === id ? { ...el, isCompleted: !el.isCompleted } : el))]);
+		setItems((itemsList) => itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, isCompleted: !el.isCompleted } : el)));
 	};
 
 	const clearCompleted = () => {
-		setItems((itemsList) => [...itemsList.filter((el) => !el.isCompleted)]);
+		setItems((itemsList) => itemsList.filter((el) => !el.isCompleted));
 	};
 
 	const setEdited = (id) => {
-		setItems((itemsList) => [
-			...itemsList.map((el) =>
-				el.id === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
-			),
-		]);
+		setItems((itemsList) => itemsList.map((el) =>
+			(el.title + el.date.getTime()) === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
+		));
+	};
+
+	const closeEditField = (id) => {
+		setItems((itemsList) => itemsList.map((el) =>
+			(el.title + el.date.getTime()) === id ? { ...el, isEditing: false } : el
+		));
 	};
 
 	const saveTitle = (id, title) => {
-		setItems((itemsList) => [...itemsList.map((el) => (el.id === id ? { ...el, title } : el))]);
+		setItems((itemsList) => itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, title } : el)));
 	};
 
 	return (
@@ -72,7 +74,7 @@ const App = () => {
 					onSetCompleted={setCompleted}
 					onEdited={setEdited}
 					saveNewTitle={saveTitle}
-					closeEditField={setEdited}
+					closeEditField={closeEditField}
 				/>
 
 				<Footer
@@ -85,6 +87,5 @@ const App = () => {
 		</section>
 	);
 };
-
 
 export default App;

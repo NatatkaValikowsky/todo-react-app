@@ -21,16 +21,19 @@ const TaskList = (props) => {
 			);
 		})
 		.map((item) => {
+
+			const id = item.title + item.date.getTime();
+
 			return (
 				<Task
-					key={item.id}
+					key={item.title + item.date.getTime()}
 					{...item}
-					onDeleted={() => onDeleted(item.id)}
-					onSetCompleted={() => onSetCompleted(item.id)}
-					onEdited={() => onEdited(item.id)}
+					onDeleted={() => onDeleted(id)}
+					onSetCompleted={() => onSetCompleted(id)}
+					onEdited={() => onEdited(id)}
 					saveNewTitle={saveNewTitle}
 					closeEditField={closeEditField}
-					isCurrentTimer={startedTimerId === item.id}
+					isCurrentTimer={startedTimerId === id}
 					onStartTimer={setCurrentTimerId}
 				/>
 			);

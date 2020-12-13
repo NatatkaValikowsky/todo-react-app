@@ -56,5 +56,5 @@ Timer.propTypes = {
 	couldStart: PropTypes.bool.isRequired,
 	isCurrentTimer: PropTypes.bool.isRequired,
 	onStartTimer: PropTypes.func.isRequired,
-	elId: PropTypes.number.isRequired,
+	elId: PropTypes.string.isRequired,
 };
