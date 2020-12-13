@@ -6,7 +6,6 @@ import Timer from '../timer';
 
 const Task = (props) => {
 	const {
-		id,
 		title,
 		date,
 		isCompleted,
@@ -26,18 +25,14 @@ const Task = (props) => {
 	const classes = (isCompleted ? ' completed' : '') + (isEditing ? ' editing' : '');
 
 	const escKeyHandler = (event) => {
-		if (event.keyCode === 27) {
-			closeEditField(id);
+		if (event.keyCode === 27 || event.keyCode === 13) {
+			closeEditField(title + date.getTime());
+			document.removeEventListener('keydown', escKeyHandler);
 		}
 	};
 
-	if (!isEditing) {
-		document.removeEventListener('keydown', escKeyHandler);
-	}
-
 	const onClickEditButton = (func) => {
 		setEditedTitle(_title);
-
 		func();
 		document.addEventListener('keydown', escKeyHandler);
 	};
@@ -47,20 +42,20 @@ const Task = (props) => {
 	};
 
 	return (
-		<li key={id} className={classes}>
+		<li key={title + date.getTime()} className={classes}>
 			<div className="view">
 				<input
-					id={`list-element-${id}`}
+					id={`list-element-${title + date.getTime()}`}
 					className="toggle"
 					type="checkbox"
 					onChange={onSetCompleted}
 					checked={isCompleted}
 				/>
-				<label htmlFor={`list-element-${id}`}>
+				<label htmlFor={`list-element-${title + date.getTime()}`}>
 					<span className="description">{_title}</span>
 					<Timer
 						onStartTimer={onStartTimer}
-						elId={id}
+						elId={title + date.getTime()}
 						isCurrentTimer={isCurrentTimer && !isCompleted && !isEditing}
 						couldStart={!isCompleted}
 					/>
@@ -85,8 +80,7 @@ const Task = (props) => {
 					onSubmit={(event) => {
 						event.preventDefault();
 						setTitle(_editedTitle);
-						saveNewTitle(id, _title);
-						closeEditField(id);
+						saveNewTitle(title + date.getTime(), _title);
 					}}
 				>
 					<input type="text" className="edit" value={_editedTitle || _title} onChange={onChangeTitle} />
@@ -111,7 +105,6 @@ Task.defaultProps = {
 };
 
 Task.propTypes = {
-	id: PropTypes.number.isRequired,
 	title: PropTypes.string.isRequired,
 	date: PropTypes.instanceOf(Date).isRequired,
 	isCompleted: PropTypes.bool,
