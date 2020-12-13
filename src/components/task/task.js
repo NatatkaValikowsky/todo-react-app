@@ -4,6 +4,8 @@ import './task.css';
 import PropTypes from 'prop-types';
 import Timer from '../timer';
 
+import { taskClasses } from '../../classNames';
+
 const Task = (props) => {
 	const {
 		title,
@@ -22,7 +24,7 @@ const Task = (props) => {
 	const [_title, setTitle] = useState(title);
 	const [_editedTitle, setEditedTitle] = useState(title);
 
-	const classes = (isCompleted ? ' completed' : '') + (isEditing ? ' editing' : '');
+	const classes = (isCompleted ? ` ${taskClasses.completed} ` : null) + (isEditing ? ` ${taskClasses.editing} ` : null);
 
 	const escKeyHandler = (event) => {
 		if (event.keyCode === 27) {

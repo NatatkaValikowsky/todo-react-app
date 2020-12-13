@@ -2,18 +2,20 @@ import React from 'react';
 import './task-filter.css';
 import PropTypes from 'prop-types';
 
+import { filterClasses } from '../../classNames';
+
 const TasksFilter = ({ filterItems, filterType }) => {
 	return (
 		<ul className="filters">
 			<li>
-				<button type="button" className={filterType === 'all' ? 'selected' : null} onClick={() => filterItems('all')}>
+				<button type="button" className={filterType === 'all' ? `${filterClasses.active}` : null} onClick={() => filterItems('all')}>
 					All
 				</button>
 			</li>
 			<li>
 				<button
 					type="button"
-					className={filterType === 'active' ? 'selected' : null}
+					className={filterType === 'active' ? `${filterClasses.active}` : null}
 					onClick={() => filterItems('active')}
 				>
 					Active
@@ -22,7 +24,7 @@ const TasksFilter = ({ filterItems, filterType }) => {
 			<li>
 				<button
 					type="button"
-					className={filterType === 'completed' ? 'selected' : null}
+					className={filterType === 'completed' ? `${filterClasses.active}` : null}
 					onClick={() => filterItems('completed')}
 				>
 					Completed
