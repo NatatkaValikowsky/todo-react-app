@@ -25,7 +25,7 @@ const Task = (props) => {
 	const classes = (isCompleted ? ' completed' : '') + (isEditing ? ' editing' : '');
 
 	const escKeyHandler = (event) => {
-		if (event.keyCode === 27 || event.keyCode === 13) {
+		if (event.keyCode === 27) {
 			closeEditField(title + date.getTime());
 			document.removeEventListener('keydown', escKeyHandler);
 		}
@@ -39,6 +39,13 @@ const Task = (props) => {
 
 	const onChangeTitle = (event) => {
 		setEditedTitle(event.target.value);
+	};
+
+	const onSubmitForm = () => {
+		setTitle(_editedTitle);
+		saveNewTitle(title + date.getTime(), _title);
+		closeEditField(title + date.getTime());
+		document.removeEventListener('keydown', escKeyHandler);
 	};
 
 	return (
@@ -76,13 +83,7 @@ const Task = (props) => {
 			</div>
 
 			{isEditing ? (
-				<form
-					onSubmit={(event) => {
-						event.preventDefault();
-						setTitle(_editedTitle);
-						saveNewTitle(title + date.getTime(), _title);
-					}}
-				>
+				<form onSubmit={onSubmitForm} >
 					<input type="text" className="edit" value={_editedTitle || _title} onChange={onChangeTitle} />
 				</form>
 			) : null}

@@ -21,7 +21,7 @@ const App = () => {
 	};
 
 	const deleteItem = (id) => {
-		setItems((itemsList) => [...itemsList.filter((el) => (el.title + el.date.getTime()) !== id)]);
+		setItems((itemsList) => itemsList.filter((el) => (el.title + el.date.getTime()) !== id));
 	};
 
 	const addNewItem = (label) => {
@@ -39,23 +39,27 @@ const App = () => {
 	};
 
 	const setCompleted = (id) => {
-		setItems((itemsList) => [...itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, isCompleted: !el.isCompleted } : el))]);
+		setItems((itemsList) => itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, isCompleted: !el.isCompleted } : el)));
 	};
 
 	const clearCompleted = () => {
-		setItems((itemsList) => [...itemsList.filter((el) => !el.isCompleted)]);
+		setItems((itemsList) => itemsList.filter((el) => !el.isCompleted));
 	};
 
 	const setEdited = (id) => {
-		setItems((itemsList) => [
-			...itemsList.map((el) =>
-				(el.title + el.date.getTime()) === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
-			),
-		]);
+		setItems((itemsList) => itemsList.map((el) =>
+			(el.title + el.date.getTime()) === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
+		));
+	};
+
+	const closeEditField = (id) => {
+		setItems((itemsList) => itemsList.map((el) =>
+			(el.title + el.date.getTime()) === id ? { ...el, isEditing: false } : el
+		));
 	};
 
 	const saveTitle = (id, title) => {
-		setItems((itemsList) => [...itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, title } : el))]);
+		setItems((itemsList) => itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, title } : el)));
 	};
 
 	return (
@@ -70,7 +74,7 @@ const App = () => {
 					onSetCompleted={setCompleted}
 					onEdited={setEdited}
 					saveNewTitle={saveTitle}
-					closeEditField={setEdited}
+					closeEditField={closeEditField}
 				/>
 
 				<Footer
