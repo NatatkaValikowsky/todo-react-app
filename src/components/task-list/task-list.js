@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Task from '../task';
 import './task-list.css';
 
+import getId from "../../utils";
+
 const TaskList = (props) => {
 	const [startedTimerId, setStartedTimerId] = useState(null);
 
@@ -22,11 +24,11 @@ const TaskList = (props) => {
 		})
 		.map((item) => {
 
-			const id = item.title + item.date.getTime();
+			const id = getId(item);
 
 			return (
 				<Task
-					key={item.title + item.date.getTime()}
+					key={id}
 					{...item}
 					onDeleted={() => onDeleted(id)}
 					onSetCompleted={() => onSetCompleted(id)}

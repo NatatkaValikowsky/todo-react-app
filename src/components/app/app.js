@@ -6,6 +6,8 @@ import Header from '../header';
 import TaskList from '../task-list';
 import Footer from '../footer';
 
+import getId from "../../utils";
+
 const App = () => {
 	const [items, setItems] = useState([
 		{ isEditing: false, isCompleted: true, title: 'Completed task', date: new Date(2020, 10, 2) },
@@ -21,7 +23,7 @@ const App = () => {
 	};
 
 	const deleteItem = (id) => {
-		setItems((itemsList) => itemsList.filter((el) => (el.title + el.date.getTime()) !== id));
+		setItems((itemsList) => itemsList.filter((el) => getId(el) !== id));
 	};
 
 	const addNewItem = (label) => {
@@ -39,7 +41,7 @@ const App = () => {
 	};
 
 	const setCompleted = (id) => {
-		setItems((itemsList) => itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, isCompleted: !el.isCompleted } : el)));
+		setItems((itemsList) => itemsList.map((el) => (getId(el) === id ? { ...el, isCompleted: !el.isCompleted } : el)));
 	};
 
 	const clearCompleted = () => {
@@ -48,18 +50,18 @@ const App = () => {
 
 	const setEdited = (id) => {
 		setItems((itemsList) => itemsList.map((el) =>
-			(el.title + el.date.getTime()) === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
+			getId(el) === id && !el.isCompleted ? { ...el, isEditing: !el.isEditing } : { ...el, isEditing: false }
 		));
 	};
 
 	const closeEditField = (id) => {
 		setItems((itemsList) => itemsList.map((el) =>
-			(el.title + el.date.getTime()) === id ? { ...el, isEditing: false } : el
+			getId(el) === id ? { ...el, isEditing: false } : el
 		));
 	};
 
 	const saveTitle = (id, title) => {
-		setItems((itemsList) => itemsList.map((el) => ((el.title + el.date.getTime()) === id ? { ...el, title } : el)));
+		setItems((itemsList) => itemsList.map((el) => (getId(el) === id ? { ...el, title } : el)));
 	};
 
 	return (
